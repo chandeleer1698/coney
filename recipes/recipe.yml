@@ -17,6 +17,14 @@ modules:
       - source: system
         destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
 
+  - name: Download latest x86_64 RPM
+  run: |
+    gh release download --repo xarbit/plasma6-applet-appgrid \
+      --pattern '*x86_64*.rpm' \
+      --output plasma6-applet-appgrid.rpm
+  env:
+    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   - type: dnf
     repos:
       copr:
@@ -26,6 +34,7 @@ modules:
       packages:
         - darkly
         - kwin-effects-better-blur-dx
+        - plasma6-applet-appgrid
     remove:
       packages:
         # example: removing firefox (in favor of the flatpak)
